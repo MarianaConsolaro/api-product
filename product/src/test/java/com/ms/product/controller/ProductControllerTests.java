@@ -26,6 +26,7 @@ public class ProductControllerTests extends ProductApplicationTests {
     private MockMvc mockMvc;
 
     private String id;
+    private String name;
 
     @Autowired
     private ProductController controller;
@@ -33,14 +34,15 @@ public class ProductControllerTests extends ProductApplicationTests {
     @BeforeEach
     public void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        this.id = "65f1e370e2294445ec27eafa";
+        this.id = "65f346c11ac3d257aed346f9";
+        this.name = "Jardineira-P";
     }
 
     @Test
     @Order(1)
     public void testCreate() throws Exception {
         log.info("testCreate");
-        ProductDTO productDTO = new ProductDTO(null, "Jardineira-P", "Floreira", 20.50f, "Jardinagem", "VasePlant", "Em estoque", "Terra Flor");
+        ProductDTO productDTO = new ProductDTO(id, "Jardineira-P", "Floreira", 20.50f, "Jardinagem", "VasePlant", "Em estoque", "Terra Flor");
         this.mockMvc.perform( MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -75,7 +77,7 @@ public class ProductControllerTests extends ProductApplicationTests {
     @Order(4)
     public void testFindByName() throws Exception {
         log.info("testFindByName");
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/products/getName/Jardineira-P"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/products/getName/" + name))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isNotEmpty())
