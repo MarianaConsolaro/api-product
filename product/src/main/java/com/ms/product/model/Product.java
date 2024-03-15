@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -20,24 +21,23 @@ public class Product implements Serializable {
     private String id;
     private String name;
     private String description;
-    private float price;
+    private BigDecimal price;
     private String category;
     private String brand;
     private String stock;
     private String supplier;
+    private String created;
+    private String updated;
+    private String registryUser;
 
     /*
     //Dependeria de que tipo de e-commerce ou produto estaria lidando, mas poderia ter outros atributos, como:
     private String weight;
     private String dimensions;
     private String expiration;
-
-    private String created;
-    private String updated;
-    private String user;
  */
-    public Product (ProductDTO entidadeDTO){
-        BeanUtils.copyProperties(entidadeDTO, this);
+    public Product (ProductDTO productDTO){
+        BeanUtils.copyProperties(productDTO, this);
     }
     public Product() {
         super();

@@ -8,6 +8,7 @@ import com.ms.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,8 @@ public class ProductService {
 
     public ProductDTO create(ProductDTO productDTO) throws ServiceException {
         Product entity = new Product(productDTO);
+        entity.setRegistryUser(productDTO.getRegistryUser());
+        entity.setCreated(LocalDateTime.now().toString());
         repository.save(entity);
         return new ProductDTO(entity);
     }
@@ -54,6 +57,10 @@ public class ProductService {
             entity.setBrand(productDTO.getBrand());
             entity.setStock(productDTO.getStock());
             entity.setSupplier(productDTO.getSupplier());
+            entity.setRegistryUser(productDTO.getRegistryUser());
+            entity.setUpdated(LocalDateTime.now().toString());
+
+
             repository.save(entity);
             return new ProductDTO(entity);
         } else {

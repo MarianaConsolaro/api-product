@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.math.BigDecimal;
+
 @SpringBootTest
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -42,7 +44,7 @@ public class ProductControllerTests extends ProductApplicationTests {
     @Order(1)
     public void testCreate() throws Exception {
         log.info("testCreate");
-        ProductDTO productDTO = new ProductDTO(id, "Jardineira-P", "Floreira", 20.50f, "Jardinagem", "VasePlant", "Em estoque", "Terra Flor");
+        ProductDTO productDTO = new ProductDTO(id, "Jardineira-P", "Floreira", new BigDecimal(20.50), "Jardinagem", "VasePlant", "Em estoque", "Terra Flor", "vaso", null, null);
         this.mockMvc.perform( MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -90,7 +92,7 @@ public class ProductControllerTests extends ProductApplicationTests {
         log.info("testUpdate");
         this.mockMvc.perform( MockMvcRequestBuilders
                         .put("/api/products/" + id)
-                        .content(asJsonString(new ProductDTO(null, "Jardineira-G-UPDATE", "Floreira", 20.50f, "Jardinagem", "VasePlant", "Em estoque", "Terra Flor")))
+                        .content(asJsonString(new ProductDTO(null, "Jardineira-G-UPDATE", "Floreira", new BigDecimal(20.50), "Jardinagem", "VasePlant", "Em estoque", "Terra Flor","vaso", null, null)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

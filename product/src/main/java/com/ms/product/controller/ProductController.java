@@ -4,9 +4,11 @@ package com.ms.product.controller;
 import com.ms.product.dto.ProductDTO;
 import com.ms.product.exceptions.ServiceException;
 import com.ms.product.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class ProductController {
 
     @Autowired
     public ProductController(ProductService service) {
+
         this.service = service;
     }
 
@@ -35,8 +38,9 @@ public class ProductController {
         }
     }
 
+    @Transactional
     @PostMapping
-    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO entity) {
+    public ResponseEntity<ProductDTO> create(@RequestBody @Valid ProductDTO entity) {
         try {
             ProductDTO createdProduct = service.create(entity);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
@@ -66,8 +70,10 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Transactional
     @PutMapping(value="/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable String id, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> update(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) {
         try {
             ProductDTO updatedProduct = service.update(id, productDTO);
             return ResponseEntity.ok(updatedProduct);
